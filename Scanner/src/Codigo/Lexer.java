@@ -234,6 +234,8 @@ class Lexer {
 
   /* user code: */
     public String lexeme;
+    private Tokens ERROR;
+    private Tokens Multiplicacion;
 
 
   /**
