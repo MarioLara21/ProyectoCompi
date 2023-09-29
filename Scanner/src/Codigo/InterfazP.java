@@ -16,8 +16,10 @@ import java.util.logging.Logger;
 import Codigo.Tokens.*;
 import static Codigo.Tokens.Error;
 import static Codigo.Tokens.Identificador;
-import static Codigo.Tokens.Numero;
-import static Codigo.Tokens.Reservadas;
+import static Codigo.Tokens.Literal;
+import static Codigo.Tokens.Operador;
+import static Codigo.Tokens.OperadorReservado;
+import static Codigo.Tokens.Reservada;
 import javax.swing.JFileChooser;
 
 /**
@@ -43,21 +45,12 @@ public class InterfazP extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtCodigo = new javax.swing.JTextField();
         BotonArchivo = new javax.swing.JButton();
-        BotonAnalizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        areaCodigo = new javax.swing.JTextArea();
+        txtCodigo = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoActionPerformed(evt);
-            }
-        });
 
         BotonArchivo.setText("Archivo");
         BotonArchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -66,19 +59,12 @@ public class InterfazP extends javax.swing.JFrame {
             }
         });
 
-        BotonAnalizar.setText("Analizar");
-        BotonAnalizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonAnalizarActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Scanner Léxico");
 
-        areaCodigo.setColumns(20);
-        areaCodigo.setRows(5);
-        jScrollPane2.setViewportView(areaCodigo);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        txtCodigo.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,38 +73,26 @@ public class InterfazP extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(320, 320, 320)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(BotonArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(BotonAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(320, 320, 320)
-                        .addComponent(jLabel1)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 789, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(292, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addComponent(jLabel1)
+                .addGap(14, 14, 14)
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BotonArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(BotonAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(BotonArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
-
-        txtCodigo.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,14 +127,14 @@ public class InterfazP extends javax.swing.JFrame {
                 Tokens tokens = lexer.yylex();
                 if(tokens == null){
                     lectura += "FIN";
-                    txtCodigo.setText(lectura);
+                    txtCodigo.add(lectura, txtCodigo);
                     return;
                 }
                 switch(tokens){
                     case Error:  
                         lectura += "Simbolo no definido\n";
                         break;
-                    case Identificador: case Numero: case Reservadas:
+                    case Identificador: case Reservada: case Operador: case OperadorReservado: case Literal:
                         lectura += lexer.lexeme + ": Es un "+ tokens +"\n";
                         break;
                     default:
@@ -174,53 +148,6 @@ public class InterfazP extends javax.swing.JFrame {
             Logger.getLogger(InterfazP.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BotonArchivoActionPerformed
-
-    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoActionPerformed
-
-    private void BotonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAnalizarActionPerformed
-        // TODO add your handling code here:
-        File archivo = new File("archivo.txt");
-        try {
-            PrintWriter escritor;
-            escritor = new PrintWriter(archivo);
-            escritor.print(txtCodigo.getText());
-            escritor.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(InterfazP.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            Reader lector;
-            lector = new BufferedReader(new FileReader("archivo.txt"));
-            Lexer lexer = new Lexer(lector);
-            String lectura = "";
-            while (true) {
-                Tokens tokens = lexer.yylex();
-                if(tokens == null){
-                    lectura += "FIN";
-                    txtCodigo.setText(lectura);
-                    return;
-                }
-                switch(tokens){
-                    case Error:  
-                        lectura += "Simbolo no definido\n";
-                        break;
-                    case Identificador: case Numero: case Reservadas:
-                        lectura += lexer.lexeme + ": Es un "+ tokens + "\n";
-                        break;
-                    default:
-                        lectura += "Token: "+ tokens + "\n";
-                        break;
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(InterfazP.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(InterfazP.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_BotonAnalizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,12 +185,10 @@ public class InterfazP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonAnalizar;
     private javax.swing.JButton BotonArchivo;
-    private javax.swing.JTextArea areaCodigo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane txtCodigo;
     // End of variables declaration//GEN-END:variables
 }
