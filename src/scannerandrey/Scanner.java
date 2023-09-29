@@ -10,7 +10,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import jflex.exceptions.SilentExit;
+import static scannerandrey.Tokens.Error;
 import static scannerandrey.Tokens.Identificador;
+import static scannerandrey.Tokens.Literal;
+import static scannerandrey.Tokens.Operador;
+import static scannerandrey.Tokens.OperadorReservado;
 import static scannerandrey.Tokens.Reservada;
 
 /**
@@ -23,7 +27,7 @@ public class Scanner {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SilentExit{
-        String ruta = "C:/Users/XPC/Documents/NetBeansProjects/PruebaScanner/src/pruebascanner/Lexer2.flex";
+        String ruta = "C:/Users/XPC/Documents/TEC/II Semestre 2023/Compi/Proyectos/Proyecto 1/ProyectoCompi/src/scannerandrey/Lexer.flex";
         generarLexer(ruta);
         ruta = "C:/Users/XPC/Downloads/para pruebas.txt";
         System.out.println(readFile(ruta));
@@ -44,11 +48,17 @@ public class Scanner {
                     return everything;                    
                 }
                 switch (tokens){
-                    case Reservada:
-                        everything += lexer.lexeme + "\t" + "PALABRA RESERVADA\t" + "LINEA\n";
+                    case Error:
+                        everything += lexer.lexeme + ": Simbolo erroneo\n";
                         break;
                     case Identificador:
                         everything += lexer.lexeme + "\t" + "IDENTIFICADOR\t" + "LINEA\n";
+                        break;
+                    case Literal:
+                        everything += lexer.lexeme + "\t" + "LITERAL\t" + "LINEA\n";
+                        break;
+                    case Reservada:
+                        everything += lexer.lexeme + "\t" + "PALABRA RESERVADA\t" + "LINEA\n";
                         break;
                     case Operador:
                         everything += lexer.lexeme + "\t" + "OPERADOR\t" + "LINEA\n";
@@ -56,14 +66,9 @@ public class Scanner {
                     case OperadorReservado:
                         everything += lexer.lexeme + "\t" + "PALABRA RESERVADA/OPERADOR\t" + "LINEA\n";
                         break;
-                    case Literal:
-                        everything += lexer.lexeme + "\t" + "LITERAL\t" + "LINEA\n";
-                        break;
-                    case Error:
-                        everything += "Simbolo erroneo\n";
-                        break;
                     default:
                         everything +=  "Token" + "\t" + tokens  + "\n";
+                        break;
                 }
                 
                
@@ -73,8 +78,6 @@ public class Scanner {
     
     public static void generarLexer(String ruta) throws IOException, SilentExit{
         File archivo = new File(ruta);
-        //String archivoString = Files.readString(Paths.get(ruta));
-        //String[] archivoArray = archivoString.split(" ");
         JFlex.Main.generate(archivo);
         
     }
