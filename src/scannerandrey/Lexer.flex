@@ -7,6 +7,7 @@ import java.io.*;
 %%
 %class Lexer
 %type Tokens
+%line
 
 // Definición de estados
 
@@ -16,6 +17,12 @@ espacio=[ ,\t,\r,\n]+
 %{
     public String lexeme;
 %}
+
+%{
+    public int GetLine() { return yyline + 1; }
+
+%}
+
 %%
 
 "array"|"begin"|"boolean"|"byte"|"case"|"char"|"const"|"do"|"downto"|"else"|"end"|"false"|

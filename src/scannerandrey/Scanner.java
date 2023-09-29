@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import jflex.exceptions.SilentExit;
 import static scannerandrey.Tokens.Error;
 import static scannerandrey.Tokens.Identificador;
@@ -22,7 +23,9 @@ import static scannerandrey.Tokens.Reservada;
  * @author XPC
  */
 public class Scanner {
-
+    private static ArrayList<ArrayList> tokensList = new ArrayList<ArrayList>();
+    private static ArrayList<ArrayList> errores = new ArrayList<ArrayList>();
+    private static String linesaux = "";
     /**
      * @param args the command line arguments
      */
@@ -30,13 +33,27 @@ public class Scanner {
         String ruta = "C:/Users/XPC/Documents/TEC/II Semestre 2023/Compi/Proyectos/Proyecto 1/ProyectoCompi/src/scannerandrey/Lexer.flex";
         generarLexer(ruta);
         ruta = "C:/Users/XPC/Downloads/para pruebas.txt";
-        System.out.println(readFile(ruta));
+        readFile(ruta);
+        organizador();
+        System.out.println("TOKEN       \tTIPO                      \tLinea(s)\n");
+        for (int i = 0; i < tokensList.size(); i++) {
+            String prnt = (String) tokensList.get(i).get(0);
+            String prnt2 = (String) tokensList.get(i).get(1);
+            String prnt3 = (String) tokensList.get(i).get(2);
+            System.out.println(prnt + prnt2 + prnt3);
+        }
+        System.out.println("\n___________________________________________________________________");
+        for (int i = 0; i < errores.size(); i++) {
+            String prnt = (String) errores.get(i).get(0);
+            String prnt2 = (String) errores.get(i).get(1);
+            System.out.println(prnt + prnt2);
+        }
         
     }
     
-    public static String readFile (String path) throws FileNotFoundException, IOException
-    {
-        String everything = "";
+    public static void readFile (String path) throws FileNotFoundException, IOException
+    {   
+        ArrayList<String> aux = new ArrayList<String>();
 
         try(BufferedReader br = new BufferedReader(new FileReader(path))) 
         {
@@ -44,30 +61,59 @@ public class Scanner {
             while (true) {
                 Tokens tokens = lexer.yylex();
                 if (tokens == null){
-                    everything += "FIN";
-                    return everything;                    
+                    return;                    
                 }
                 switch (tokens){
                     case Error:
-                        everything += lexer.lexeme + ": Simbolo erroneo\n";
+                        aux = new ArrayList<String>();
+                        aux.add(String.valueOf(lexer.lexeme+ "       \t"));
+                        aux.add(String.valueOf((char) lexer.GetLine()));
+                        errores.add(aux);
                         break;
                     case Identificador:
-                        everything += lexer.lexeme + "\t" + "IDENTIFICADOR\t" + "LINEA\n";
-                        break;
+                        if(!yaExiste(lexer.lexeme,lexer.GetLine())){
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme+ "       \t"));
+                            aux.add("IDENTIFICADOR             \t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }break;
                     case Literal:
-                        everything += lexer.lexeme + "\t" + "LITERAL\t" + "LINEA\n";
-                        break;
+                        if(!yaExiste(lexer.lexeme,lexer.GetLine())){
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
+                            aux.add("LITERAL                   \t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }break;
                     case Reservada:
-                        everything += lexer.lexeme + "\t" + "PALABRA RESERVADA\t" + "LINEA\n";
-                        break;
+                        if(!yaExiste(lexer.lexeme,lexer.GetLine())){
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
+                            aux.add("PALABRA RESERVADA         \t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }break;
                     case Operador:
-                        everything += lexer.lexeme + "\t" + "OPERADOR\t" + "LINEA\n";
-                        break;
+                        if(!yaExiste(lexer.lexeme,lexer.GetLine())){
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
+                            aux.add("OPERADOR                  \t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }break;
                     case OperadorReservado:
-                        everything += lexer.lexeme + "\t" + "PALABRA RESERVADA/OPERADOR\t" + "LINEA\n";
-                        break;
+                        if(!yaExiste(lexer.lexeme,lexer.GetLine())){
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
+                            aux.add("PALABRA RESERVADA/OPERADOR\t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }break;
                     default:
-                        everything +=  "Token" + "\t" + tokens  + "\n";
+                        aux = new ArrayList<String>();
+                        aux.add("Token" + "\t" + tokens  + "\n");
+                        tokensList.add(aux);
                         break;
                 }
                 
@@ -80,6 +126,63 @@ public class Scanner {
         File archivo = new File(ruta);
         JFlex.Main.generate(archivo);
         
+    }
+    
+    public static boolean yaExiste(String token, int line){
+        for (int i = 0; tokensList.size() > i; i++) {
+            String aux = (String) tokensList.get(i).get(0);
+            if(token.trim().equals(aux.trim())){
+               tokensList.get(i).add(String.valueOf(line));
+               return true;
+            }   
+        }
+        return false;
+
+    }
+    
+   
+    public static void organizador(){
+        for (int i = 0; i < tokensList.size(); i++) {
+            int pivote = 3;
+            int contador=1;
+            while(tokensList.get(i).size()> pivote){
+                String existente = (String) tokensList.get(i).get(2);
+                String nuevo = (String) tokensList.get(i).get(pivote);
+                if (existente.trim().equals(nuevo.trim())){
+                    contador++;
+                    tokensList.get(i).remove(pivote);
+                    tokensList.get(i).trimToSize();
+                }
+                else{
+                    pivote++;
+                }
+            }
+            if (tokensList.get(i).size() == pivote && pivote == 3){
+                if(contador == 1){
+                    System.out.println("siiiii");
+                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "\n";
+                    tokensList.get(i).set(2, linesaux);
+                    linesaux = "";
+                }else{
+                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "("+ String.valueOf(contador) +")\n";
+                    tokensList.get(i).set(2, linesaux);
+                    linesaux = " ";
+
+                }
+            }else if (tokensList.get(i).size() == pivote ){
+                if(contador == 1){
+                    System.out.println("ahhhhhh");
+                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + ", ";
+                    tokensList.get(i).remove(2);
+                }else{
+                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "("+ String.valueOf(contador) +"), ";
+                    tokensList.get(i).remove(2);
+                }
+            }
+            pivote = 3;
+            contador = 1;
+            
+        }
     }
     
     
