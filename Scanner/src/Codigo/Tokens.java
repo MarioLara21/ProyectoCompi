@@ -1,13 +1,10 @@
 package Codigo;
 
 public enum Tokens {
-    Reservadas,
-    Igual,
-    Suma,
-    Resta,
-    Multiplicación,
-    Division,
+    Reservada,
     Identificador,
-    Numero,
+    Operador,
+    OperadorReservado,
+    Literal,
     Error
 }
