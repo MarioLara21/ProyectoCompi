@@ -43,10 +43,11 @@ public class Scanner {
             System.out.println(prnt + prnt2 + prnt3);
         }
         System.out.println("\n___________________________________________________________________");
+        System.out.println("ERROR LEXICO       \tLinea                     \n");
         for (int i = 0; i < errores.size(); i++) {
             String prnt = (String) errores.get(i).get(0);
             String prnt2 = (String) errores.get(i).get(1);
-            System.out.println(prnt + prnt2);
+            System.out.println(prnt + prnt2 );
         }
         
     }
@@ -67,7 +68,7 @@ public class Scanner {
                     case Error:
                         aux = new ArrayList<String>();
                         aux.add(String.valueOf(lexer.lexeme+ "       \t"));
-                        aux.add(String.valueOf((char) lexer.GetLine()));
+                        aux.add(String.valueOf(lexer.GetLine()));
                         errores.add(aux);
                         break;
                     case Identificador:
@@ -131,7 +132,7 @@ public class Scanner {
     public static boolean yaExiste(String token, int line){
         for (int i = 0; tokensList.size() > i; i++) {
             String aux = (String) tokensList.get(i).get(0);
-            if(token.trim().equals(aux.trim())){
+            if(token.trim().toLowerCase().equals(aux.trim().toLowerCase())){
                tokensList.get(i).add(String.valueOf(line));
                return true;
             }   
@@ -145,38 +146,40 @@ public class Scanner {
         for (int i = 0; i < tokensList.size(); i++) {
             int pivote = 3;
             int contador=1;
-            while(tokensList.get(i).size()> pivote){
-                String existente = (String) tokensList.get(i).get(2);
-                String nuevo = (String) tokensList.get(i).get(pivote);
-                if (existente.trim().equals(nuevo.trim())){
-                    contador++;
-                    tokensList.get(i).remove(pivote);
-                    tokensList.get(i).trimToSize();
+            while(tokensList.get(i).size()>= pivote){
+                if (tokensList.get(i).size() == pivote && pivote == 3){
+                    if(contador == 1){
+                        linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "\n";
+                        tokensList.get(i).set(2, linesaux);
+                        linesaux = "";
+                    }else{
+                        linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "("+ String.valueOf(contador) +")\n";
+                        tokensList.get(i).set(2, linesaux);
+                        linesaux = "";
+                    }
+                    break;
                 }
-                else{
-                    pivote++;
-                }
-            }
-            if (tokensList.get(i).size() == pivote && pivote == 3){
-                if(contador == 1){
-                    System.out.println("siiiii");
-                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "\n";
-                    tokensList.get(i).set(2, linesaux);
-                    linesaux = "";
-                }else{
-                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "("+ String.valueOf(contador) +")\n";
-                    tokensList.get(i).set(2, linesaux);
-                    linesaux = " ";
-
-                }
-            }else if (tokensList.get(i).size() == pivote ){
-                if(contador == 1){
-                    System.out.println("ahhhhhh");
-                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + ", ";
-                    tokensList.get(i).remove(2);
-                }else{
-                    linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "("+ String.valueOf(contador) +"), ";
-                    tokensList.get(i).remove(2);
+                else if(tokensList.get(i).size() == pivote && pivote!= 3){
+                    if(contador == 1){
+                        linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + ", ";
+                        tokensList.get(i).remove(2);
+                    }else{
+                        linesaux = linesaux + String.valueOf(tokensList.get(i).get(2)) + "("+ String.valueOf(contador) +"), ";
+                        tokensList.get(i).remove(2);
+                    }
+                    pivote = 3;
+                    contador = 1;
+                }else {
+                    String existente = (String) tokensList.get(i).get(2);
+                    String nuevo = (String) tokensList.get(i).get(pivote);
+                    if (existente.trim().equals(nuevo.trim())){
+                        contador++;
+                        tokensList.get(i).remove(pivote);
+                        tokensList.get(i).trimToSize();
+                    }
+                    else{
+                        pivote++;
+                    }
                 }
             }
             pivote = 3;
