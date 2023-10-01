@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package scanner;
 
@@ -20,9 +20,7 @@ import static scanner.Tokens.Reservada;
 
 /**
  *
- * @author Mario Lara
- * @author Andrey Sanchez
- * @author Jonnathan Villalobos
+ * @author XPC
  */
 public class Scanner {
     private static ArrayList<ArrayList> tokensList = new ArrayList<ArrayList>();
@@ -30,29 +28,12 @@ public class Scanner {
     private static String linesaux = "";
     
     /**
-     * @param args the command line arguments
+     * Constructor de la clase
      */
-    public static void main(String[] args) throws IOException, SilentExit{
-        String ruta = "./src/scanner/Lexer.flex";
-        generarLexer(ruta);
-        ruta = "./src/scanner/para pruebas.txt";
-        readFile(ruta);     //Se realiza el analisis lexico del txt
-        organizador();      //Se organiza la lista de Tokens
-        System.out.println("TOKEN       \tTIPO                      \tLinea(s)\n");
-        for (int i = 0; i < tokensList.size(); i++) {
-            String prnt = (String) tokensList.get(i).get(0);
-            String prnt2 = (String) tokensList.get(i).get(1);
-            String prnt3 = (String) tokensList.get(i).get(2);
-            System.out.println(prnt + prnt2 + prnt3);
-        }
-        System.out.println("\n___________________________________________________________________");
-        System.out.println("ERROR LEXICO       \tLinea                     \n");
-        for (int i = 0; i < errores.size(); i++) {
-            String prnt = (String) errores.get(i).get(0);
-            String prnt2 = (String) errores.get(i).get(1);
-            System.out.println(prnt + prnt2 );
-        }
-        
+    public Scanner() {
+        this.tokensList = new ArrayList<ArrayList>();
+        this.errores = new ArrayList<ArrayList>();
+        this.linesaux = "";
     }
     
     /**
@@ -215,5 +196,12 @@ public class Scanner {
         }
     }
     
+    public ArrayList<ArrayList> getTokensList() {
+        return tokensList;
+    }
+
+    public ArrayList<ArrayList> getErrores() {
+        return errores;
+    }
     
 }

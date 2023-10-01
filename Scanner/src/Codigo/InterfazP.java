@@ -18,13 +18,16 @@ import static Codigo.Tokens.Error;
 import static Codigo.Tokens.Identificador;
 import static Codigo.Tokens.Numero;
 import static Codigo.Tokens.Reservadas;
+import java.io.FileFilter;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Mario Lara Molina
  */
 public class InterfazP extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form InterfazP
@@ -32,7 +35,7 @@ public class InterfazP extends javax.swing.JFrame {
     public InterfazP() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,11 +145,39 @@ public class InterfazP extends javax.swing.JFrame {
     private void BotonArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonArchivoActionPerformed
         // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+        chooser.setAcceptAllFileFilterUsed(false);
         chooser.showOpenDialog(null);
         
         try {
             Reader lector;
             lector = new BufferedReader(new FileReader(chooser.getSelectedFile()));
+            //Scanner.readFile(lector);
+            /*scanner.organizador();      //Se organiza la lista de Tokens
+        
+            String columnsTokens[] = {"Token","Tipo","Linea(s)"};
+            String columnsErrors[] = {"Error", "Linea"};
+            String datosTokens[][] = new String[scanner.getTokensList().size()][3];
+            String datosErrores[][] = new String[scanner.getErrores().size()][3];
+            for (int i = 0; i < scanner.getTokensList().size(); i++) {
+                String prnt = (String) scanner.getTokensList().get(i).get(0);
+                String prnt2 = (String) scanner.getTokensList().get(i).get(1);
+                String prnt3 = (String) scanner.getTokensList().get(i).get(2);
+                datosTokens[i][0]= prnt;
+                datosTokens[i][1]= prnt2;
+                datosTokens[i][2]= prnt3;
+                System.out.println(prnt + prnt2 + prnt3);
+            }
+            for (int i = 0; i < scanner.getErrores().size(); i++) {
+                String prnt = (String) scanner.getErrores().get(i).get(0);
+                String prnt2 = (String) scanner.getErrores().get(i).get(1);
+                datosErrores[i][0]= prnt;
+                datosErrores[i][1]= prnt;
+            }*/
+            //DefaultTableModel modelTokens = new DefaultTableModel(datosTokens,columnsTokens);
+            //DefaultTableModel modelErrors = new DefaultTableModel(datosErrores,columnsErrors);
+            //jTableTokens.setModel(modelTokens);
+            //jTableErrors.setModel(modelErrors);
             Lexer lexer = new Lexer(lector);
             String lectura = "";
             while (true) {
