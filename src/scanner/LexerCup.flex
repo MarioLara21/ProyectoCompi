@@ -1,5 +1,5 @@
 package scanner;
-import static scanner.Tokens.*;
+import java_cup.runtime.Symbol;
 
 import java.io.*;
 
@@ -11,8 +11,8 @@ import java.io.*;
  */
 
 %%
-%class Lexer
-%type Tokens
+%class LexerCup
+%type java_cup.runtime.Symbol
 %line
 %maxmin
 
@@ -20,9 +20,15 @@ import java.io.*;
 
 L=[a-zA-Z_]+
 D=[0-9]+
-espacio=[ ,\t,\r]+
+espacio=[ ,\t,\r,\n]+
 %{
-    public String lexeme;
+    private Symbol symbol(int type,Object value){
+        return new Symbol(type,yyline,yycolumn,value);
+};
+    private Symbol symbol(int type){
+        return new Symbol(type,yyline,yycolumn);
+};
+    
 %}
 
 %{
@@ -88,7 +94,7 @@ espacio=[ ,\t,\r]+
 
 // Definicion de operadores
 
-"\n" {lexeme=yytext(); return SaltoLinea;}
+
 "," {lexeme=yytext(); return Coma;}
 ";" {lexeme=yytext(); return PuntoComa;}
 "\+\+" {lexeme=yytext(); return Sumadoble;}
