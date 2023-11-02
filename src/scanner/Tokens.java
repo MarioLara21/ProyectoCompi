@@ -12,9 +12,9 @@ package scanner;
  */
 public enum Tokens {
     Reservada,
+    Error,
     Identificador,
     Operador,
     OperadorReservado,
-    Literal,
-    Error
+    Literal
 }
