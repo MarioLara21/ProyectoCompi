@@ -14,6 +14,8 @@ import java.io.*;
 %class Lexer
 %type Tokens
 %line
+%caseless
+%ignorecase
 
 // Definición de estados
 
@@ -33,10 +35,10 @@ espacio=[ ,\t,\r,\n]+
 
 // Definicion de palabras reservadas
 
-"array"|"begin"|"boolean"|"byte"|"case"|"char"|"const"|"do"|"downto"|"else"|"end"|"false"|
-"file"|"for"|"forward"|"function"|"goto"|"if"|"in"|"inline"|"int"|"label"|"longint"|"nil"|
-"of"|"packed"|"procedure"|"program"|"read"|"real"|"record"|"repeat"|"set"|"shortint"|"string"|"then"|
-"to"|"true"|"type"|"until"|"var"|"while"|"with"|"write" {lexeme=yytext(); return Reservada;}
+"array" |"begin" | "boolean" | "byte" | "case" | "char" | "const" | "do" | "downto" | "else" | "end" | "false" |
+"file" | "for" | "forward" | "function" | "goto" | "if" | "in" | "inline" | "int" | "label" | "longint" | "nil" |
+"of" | "packed" | "procedure" | "program" | "read" | "real" | "record" | "repeat" | "set" | "shortint" | "string" | "then" |
+"to" | "true" | "type" | "until" | "var" | "while" | "with" | "write" {lexeme=yytext(); return Reservada;}
 
 // Definicion de ignorar espacios en blanco y comentarios
 
