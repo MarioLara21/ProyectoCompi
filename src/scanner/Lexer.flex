@@ -82,4 +82,5 @@ espacio=[ ,\t,\r,\n]+
 (("\.")([eE][-+]?[0-9]+)) {lexeme=yytext(); return Error;}
 (("\.")([0-9]+)([eE][-+]?[0-9]+)) {lexeme=yytext(); return Error;}
 (("\.")([0-9]+)) {lexeme=yytext(); return Error;}
+("\(\*" [^]* ) {lexeme=yytext(); return Error;}
  . {return Error;}
