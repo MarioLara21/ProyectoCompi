@@ -24,7 +24,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SilentExit{
-        InterfazScanner interfaz = new InterfazScanner();
+        /*String ruta = "./src/scanner/Lexer.flex";
+        File archivo = new File(ruta);
+        JFlex.Main.generate(archivo);
+        */InterfazScanner interfaz = new InterfazScanner();
         interfaz.show();
+        
     }
 }
