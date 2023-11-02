@@ -33,6 +33,8 @@ espacio=[ ,\t,\r,\n]+
 
 // Definicion de palabras reservadas
 
+%ignorecase "[array:lower:]" {lexeme=yytext(); return Reservada;}
+
 "array"|"begin"|"boolean"|"byte"|"case"|"char"|"const"|"do"|"downto"|"else"|"end"|"false"|
 "file"|"for"|"forward"|"function"|"goto"|"if"|"in"|"inline"|"int"|"label"|"longint"|"nil"|
 "of"|"packed"|"procedure"|"program"|"read"|"real"|"record"|"repeat"|"set"|"shortint"|"string"|"then"|
