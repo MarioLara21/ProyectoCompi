@@ -59,7 +59,8 @@ espacio=[ ,\t,\r,\n]+
 
 // Definicion de la regla para identificadores
 
-{L}({L}|{D}){0,126} {lexeme=yytext(); return Identificador;}
+{L}({L}|{D}){125,200} {lexeme=yytext(); return Error;}
+{L}({L}|{D}){1,125} {lexeme=yytext(); return Identificador;}
 
 //Definicion de las reglas para literales
 

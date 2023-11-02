@@ -69,7 +69,6 @@ public class Scanner {
                             aux.add("PALABRA RESERVADA         \t");
                             aux.add(String.valueOf(lexer.GetLine()));
                             tokensList.add(aux);
-                            System.out.println("Entra reservada");
                         }
                         break;
                     case Identificador:
@@ -79,7 +78,6 @@ public class Scanner {
                             aux.add("IDENTIFICADOR             \t");
                             aux.add(String.valueOf(lexer.GetLine()));
                             tokensList.add(aux);
-                            System.out.println("Entra id");
                         }break;
                     case Literal:
                         if(!yaExiste(lexer.lexeme,lexer.GetLine())){
