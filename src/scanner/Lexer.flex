@@ -77,12 +77,13 @@ espacio=[ ,\t,\r,\n]+
 (("\"")({L}+)(" " |{L})*) {lexeme=yytext(); return Error;}
 (({L}+)((" " |{L}+)*) ("\"")) {lexeme=yytext(); return Error;}
 (({D}+)("\.")) {lexeme=yytext(); return Error;}
+("-")([1-9][0-9]*|0)("\.")?([0-9]+)?([eE][-+]?[0-9]+) {lexeme=yytext(); return Error;} 
 (([1-9][0-9]*|0)("\.")([eE][-+]?)) {lexeme=yytext(); return Error;} 
 (([1-9][0-9]*|0)("\.")([0-9]+)([eE][-+]?)) {lexeme=yytext(); return Error;}
 (("\.")([eE][-+]?[0-9]+)) {lexeme=yytext(); return Error;}
 (("\.")([0-9]+)([eE][-+]?[0-9]+)) {lexeme=yytext(); return Error;}
 (("\.")([0-9]+)) {lexeme=yytext(); return Error;}
 ("\(\*" [^]* ) {lexeme=yytext(); return Error;}
- (\"[^\r\n\"]) {lexeme=yytext(); return Error;}
- \"([^/])*\" {lexeme=yytext(); return Error;}
- . {return Error;}
+ \"[^\r\n\"]*\" {lexeme=yytext(); return Error;}
+ \"([^/\"])*\" {lexeme=yytext(); return Error;}
+. {lexeme=yytext(); return Error;}
