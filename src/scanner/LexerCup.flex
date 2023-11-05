@@ -11,7 +11,7 @@ import java.io.*;
 %class LexerCup
 %type java_cup.runtime.Symbol
 %line
-%maxmin
+
 %cup
 %full
 %char

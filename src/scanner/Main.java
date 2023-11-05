@@ -28,9 +28,9 @@ public class Main {
      */
     public static void main(String[] args) throws IOException, SilentExit, Exception{
         //var scanner = new Scanner();
-        String ruta1 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Lexer.flex";
-        String ruta2 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/LexerCup.flex";
-        String[] rutaS = {"-parser", "Sintax", "G:/ReposGit/ProyectoCompi/Scanner/src/scanner//Sintax.cup"};
+        String ruta1 = "src/scanner/Lexer.flex";
+        String ruta2 = "src/scanner/LexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "src/scanner//Sintax.cup"};
         generar(ruta1, ruta2, rutaS);
         InterfazScanner interfaz = new InterfazScanner();
         interfaz.show();
@@ -43,21 +43,21 @@ public class Main {
         JFlex.Main.generate(archivo);
         java_cup.Main.main(rutaS);
         
-        Path rutaSym = Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/sym.java");
+        Path rutaSym = Paths.get("src/scanner/sym.java");
         if (Files.exists(rutaSym)) {
             Files.delete(rutaSym);
         }
         Files.move(
-                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/sym.java"), 
-                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/sym.java")
+                Paths.get("sym.java"), 
+                Paths.get("src/scanner/sym.java")
         );
-        Path rutaSin = Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Sintax.java");
+        Path rutaSin = Paths.get("src/scanner/Sintax.java");
         if (Files.exists(rutaSin)) {
             Files.delete(rutaSin);
         }
         Files.move(
-                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/Sintax.java"), 
-                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Sintax.java")
+                Paths.get("Sintax.java"), 
+                Paths.get("src/scanner/Sintax.java")
         );
     }
 }
