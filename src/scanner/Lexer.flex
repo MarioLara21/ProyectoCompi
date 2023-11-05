@@ -14,7 +14,6 @@ import java.io.*;
 %class Lexer
 %type Tokens
 %line
-%maxmin
 
 // Definición de estados
 

@@ -1,15 +1,12 @@
 package scanner;
 import java_cup.runtime.Symbol;
-
 import java.io.*;
-
 /**
  *
  * @author Mario Lara
  * @author Andrey Sanchez
  * @author Jonnathan Villalobos
  */
-
 %%
 %class LexerCup
 %type java_cup.runtime.Symbol
@@ -19,7 +16,6 @@ import java.io.*;
 %full
 %char
 // Definición de estados
-
 L=[a-zA-Z_]+
 D=[0-9]+
 espacio=[ ,\t,\r,\n]+
@@ -29,19 +25,13 @@ espacio=[ ,\t,\r,\n]+
 };
     private Symbol symbol(int type){
         return new Symbol(type,yyline,yycolumn);
-};
-    
+};   
 %}
-
 %{
     public int GetLine() { return yyline + 1; }
-
 %}
-
 %%
-
 // Definicion de palabras reservadas
-
 "array" {return new Symbol(sym.Array, yychar, yyline,yytext());}
 "begin" {return new Symbol(sym.Begin, yychar, yyline,yytext());}
 "boolean" {return new Symbol(sym.Boolean, yychar, yyline,yytext());}
@@ -97,7 +87,7 @@ espacio=[ ,\t,\r,\n]+
 // Definicion de operadores
 
 
-"," {return new Symbol(sym.Coma, yychar, yyline,yytext());}
+"\," {return new Symbol(sym.Coma, yychar, yyline,yytext());}
 ";" {return new Symbol(sym.PuntoComa, yychar, yyline,yytext());}
 "\+\+" {return new Symbol(sym.SumaDoble, yychar, yyline,yytext());}
 "--" {return new Symbol(sym.RestaDoble, yychar, yyline,yytext());}

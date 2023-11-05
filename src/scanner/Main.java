@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import jflex.exceptions.SilentExit;
 
@@ -23,8 +26,38 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, SilentExit{
+    public static void main(String[] args) throws IOException, SilentExit, Exception{
+        //var scanner = new Scanner();
+        String ruta1 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Lexer.flex";
+        String ruta2 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/LexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "G:/ReposGit/ProyectoCompi/Scanner/src/scanner//Sintax.cup"};
+        generar(ruta1, ruta2, rutaS);
         InterfazScanner interfaz = new InterfazScanner();
         interfaz.show();
+    }
+    public static void generar(String ruta1, String ruta2, String[] rutaS) throws IOException, Exception{
+        File archivo;
+        archivo = new File(ruta1);
+        JFlex.Main.generate(archivo);
+        archivo = new File(ruta2);
+        JFlex.Main.generate(archivo);
+        java_cup.Main.main(rutaS);
+        
+        Path rutaSym = Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/sym.java");
+        if (Files.exists(rutaSym)) {
+            Files.delete(rutaSym);
+        }
+        Files.move(
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/sym.java"), 
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/sym.java")
+        );
+        Path rutaSin = Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Sintax.java");
+        if (Files.exists(rutaSin)) {
+            Files.delete(rutaSin);
+        }
+        Files.move(
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/Sintax.java"), 
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Sintax.java")
+        );
     }
 }
