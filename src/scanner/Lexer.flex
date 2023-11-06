@@ -14,6 +14,7 @@ import java.io.*;
 %class Lexer
 %type Tokens
 %line
+%unicode
 %caseless
 %ignorecase
 
@@ -60,7 +61,7 @@ espacio=[ ,\t,\r,\n]+
 // Definicion de la regla para identificadores
 
 {L}({L}|{D}){125,200} {lexeme=yytext(); return Error;}
-{L}({L}|{D}){1,125} {lexeme=yytext(); return Identificador;}
+{L}({L}|{D})?{1,125} {lexeme=yytext(); return Identificador;}
 
 //Definicion de las reglas para literales
 
@@ -72,8 +73,7 @@ espacio=[ ,\t,\r,\n]+
 // Definicion de reglas que producen errores léxicos
 
 ({D}{L}) {lexeme=yytext(); return Error;}
-((("!" | "#" | "$" | "%" | "&" | "*" | "+" | "-" | "@" | "`" | "~")+)({L}+)) {lexeme=yytext(); return Error;}
-(({L}+) (("!" | "#" | "$" | "%" | "&" | "*" | "+" | "-" | "@" | "`" | "~")+)) {lexeme=yytext(); return Error;}
+(({L}+)? (("�" | "!" | "#" | "$" | "%" | "&" | "*" | "+" | "-" | "@" | "`" | "~")+) ({L}+)?) {lexeme=yytext(); return Error;}
 (("\"")({L}+)(" " |{L})*) {lexeme=yytext(); return Error;}
 (({L}+)((" " |{L}+)*) ("\"")) {lexeme=yytext(); return Error;}
 (({D}+)("\.")) {lexeme=yytext(); return Error;}
