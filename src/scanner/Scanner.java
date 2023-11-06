@@ -11,12 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import jflex.exceptions.SilentExit;
-import static scanner.Tokens.Error;
-import static scanner.Tokens.Identificador;
-import static scanner.Tokens.Literal;
-import static scanner.Tokens.Operador;
-import static scanner.Tokens.OperadorReservado;
-import static scanner.Tokens.Reservada;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -29,11 +26,16 @@ public class Scanner {
     
     /**
      * Constructor de la clase
+     * @throws java.lang.Exception
      */
-    public Scanner() {
+    public Scanner() throws Exception {
         this.tokensList = new ArrayList<ArrayList>();
         this.errores = new ArrayList<ArrayList>();
         this.linesaux = "";
+        String ruta1 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Lexer.flex";
+        String ruta2 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/LexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "G:/ReposGit/ProyectoCompi/Scanner/src/scanner//Sintax.cup"};
+        generar(ruta1, ruta2, rutaS);
     }
     
     /**
@@ -62,16 +64,6 @@ public class Scanner {
                         aux.add(String.valueOf(lexer.GetLine()));
                         errores.add(aux);
                         break;
-                    case Reservada:
-                        if (!yaExiste(lexer.lexeme, lexer.GetLine())) {
-                            aux = new ArrayList<String>();
-                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
-                            aux.add("PALABRA RESERVADA         \t");
-                            aux.add(String.valueOf(lexer.GetLine()));
-                            tokensList.add(aux);
-                            System.out.println("Entra reservada");
-                        }
-                        break;
                     case Identificador:
                         if(!yaExiste(lexer.lexeme,lexer.GetLine())){
                             aux = new ArrayList<String>();
@@ -79,7 +71,6 @@ public class Scanner {
                             aux.add("IDENTIFICADOR             \t");
                             aux.add(String.valueOf(lexer.GetLine()));
                             tokensList.add(aux);
-                            System.out.println("Entra id");
                         }break;
                     case Literal:
                         if(!yaExiste(lexer.lexeme,lexer.GetLine())){
@@ -89,7 +80,15 @@ public class Scanner {
                             aux.add(String.valueOf(lexer.GetLine()));
                             tokensList.add(aux);
                         }break;
-                    case Operador:
+                    case Int:
+                        if(!yaExiste(lexer.lexeme,lexer.GetLine())){
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
+                            aux.add("PALABRA RESERVADA         \t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }break;
+                    case If:
                         if(!yaExiste(lexer.lexeme,lexer.GetLine())){
                             aux = new ArrayList<String>();
                             aux.add(String.valueOf(lexer.lexeme + "       \t"));
@@ -97,7 +96,7 @@ public class Scanner {
                             aux.add(String.valueOf(lexer.GetLine()));
                             tokensList.add(aux);
                         }break;
-                    case OperadorReservado:
+                    case End:
                         if(!yaExiste(lexer.lexeme,lexer.GetLine())){
                             aux = new ArrayList<String>();
                             aux.add(String.valueOf(lexer.lexeme + "       \t"));
@@ -123,10 +122,30 @@ public class Scanner {
      * @throws IOException
      * @throws SilentExit 
      */
-    public static void generarLexer(String ruta) throws IOException, SilentExit{
-        File archivo = new File(ruta);
+    public static void generar(String ruta1, String ruta2, String[] rutaS) throws IOException, Exception{
+        File archivo;
+        archivo = new File(ruta1);
         JFlex.Main.generate(archivo);
+        archivo = new File(ruta2);
+        JFlex.Main.generate(archivo);
+        java_cup.Main.main(rutaS);
         
+        Path rutaSym = Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/sym.java");
+        if (Files.exists(rutaSym)) {
+            Files.delete(rutaSym);
+        }
+        Files.move(
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/sym.java"), 
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/sym.java")
+        );
+        Path rutaSin = Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Sintax.java");
+        if (Files.exists(rutaSin)) {
+            Files.delete(rutaSin);
+        }
+        Files.move(
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/Sintax.java"), 
+                Paths.get("G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Sintax.java")
+        );
     }
     
     /**
