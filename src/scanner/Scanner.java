@@ -64,6 +64,17 @@ public class Scanner {
                         aux.add(String.valueOf(lexer.GetLine()));
                         errores.add(aux);
                         break;
+
+                    case Reservada:
+                        if (!yaExiste(lexer.lexeme, lexer.GetLine())) {
+                            aux = new ArrayList<String>();
+                            aux.add(String.valueOf(lexer.lexeme + "       \t"));
+                            aux.add("PALABRA RESERVADA         \t");
+                            aux.add(String.valueOf(lexer.GetLine()));
+                            tokensList.add(aux);
+                        }
+                        break;
+
                     case Identificador:
                         if(!yaExiste(lexer.lexeme,lexer.GetLine())){
                             aux = new ArrayList<String>();
