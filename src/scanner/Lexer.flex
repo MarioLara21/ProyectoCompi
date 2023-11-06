@@ -15,6 +15,11 @@ import java.io.*;
 %type Tokens
 %line
 
+%unicode
+%caseless
+%ignorecase
+
+
 // Definición de estados
 
 L=[a-zA-Z_]+
@@ -129,7 +134,8 @@ espacio=[ ,\t,\r]+
 
 // Definicion de la regla para identificadores
 
-{L}({L}|{D}){0,126} {lexeme=yytext(); return Identificador;}
+{L}({L}|{D}){125,200} {lexeme=yytext(); return Error;}
+{L}({L}|{D})?{1,125} {lexeme=yytext(); return Identificador;}
 
 //Definicion de las reglas para literales
 
@@ -141,14 +147,19 @@ espacio=[ ,\t,\r]+
 // Definicion de reglas que producen errores léxicos
 
 ({D}{L}) {lexeme=yytext(); return Error;}
-((("!" | "#" | "$" | "%" | "&" | "*" | "+" | "-" | "@" | "`" | "~")+)({L}+)) {lexeme=yytext(); return Error;}
-(({L}+) (("!" | "#" | "$" | "%" | "&" | "*" | "+" | "-" | "@" | "`" | "~")+)) {lexeme=yytext(); return Error;}
+(({L}+)? (("�" | "!" | "#" | "$" | "%" | "&" | "*" | "+" | "-" | "@" | "`" | "~")+) ({L}+)?) {lexeme=yytext(); return Error;}
 (("\"")({L}+)(" " |{L})*) {lexeme=yytext(); return Error;}
 (({L}+)((" " |{L}+)*) ("\"")) {lexeme=yytext(); return Error;}
 (({D}+)("\.")) {lexeme=yytext(); return Error;}
+("-")([1-9][0-9]*|0)("\.")?([0-9]+)?([eE][-+]?[0-9]+) {lexeme=yytext(); return Error;} 
 (([1-9][0-9]*|0)("\.")([eE][-+]?)) {lexeme=yytext(); return Error;} 
 (([1-9][0-9]*|0)("\.")([0-9]+)([eE][-+]?)) {lexeme=yytext(); return Error;}
 (("\.")([eE][-+]?[0-9]+)) {lexeme=yytext(); return Error;}
 (("\.")([0-9]+)([eE][-+]?[0-9]+)) {lexeme=yytext(); return Error;}
 (("\.")([0-9]+)) {lexeme=yytext(); return Error;}
- . {return Error;}
+
+("\(\*" [^]* ) {lexeme=yytext(); return Error;}
+ \"[^\r\n\"]*\" {lexeme=yytext(); return Error;}
+ \"([^/\"])*\" {lexeme=yytext(); return Error;}
+. {lexeme=yytext(); return Error;}
+
