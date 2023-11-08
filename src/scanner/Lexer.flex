@@ -93,7 +93,6 @@ espacio=[ ,\t,\r]+
 // Definicion de operadores
 
 "\n" {lexeme=yytext(); return SaltoLinea;}
-"," {lexeme=yytext(); return Coma;}
 ";" {lexeme=yytext(); return PuntoComa;}
 "\+\+" {lexeme=yytext(); return Sumadoble;}
 "--" {lexeme=yytext(); return RestaDoble;}

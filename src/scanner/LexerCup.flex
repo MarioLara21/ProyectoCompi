@@ -11,7 +11,6 @@ import java.io.*;
 %class LexerCup
 %type java_cup.runtime.Symbol
 %line
-
 %cup
 %full
 %char
@@ -49,6 +48,7 @@ espacio=[ ,\t,\r,\n]+
 "forward" {return new Symbol(sym.Forward, yychar, yyline,yytext());}
 "function" {return new Symbol(sym.Function, yychar, yyline,yytext());}
 "goto" {return new Symbol(sym.Goto, yychar, yyline,yytext());}
+"global" {return new Symbol(sym.Global, yychar, yyline,yytext());}
 "if" {return new Symbol(sym.If, yychar, yyline,yytext());}
 "in" {return new Symbol(sym.In, yychar, yyline,yytext());}
 "inline" {return new Symbol(sym.Inline, yychar, yyline,yytext());}
@@ -105,6 +105,8 @@ espacio=[ ,\t,\r,\n]+
 "\)" {return new Symbol(sym.ParentesisC, yychar, yyline,yytext());}
 "\[" {return new Symbol(sym.CorcheteA, yychar, yyline,yytext());}
 "\]" {return new Symbol(sym.CorcheteC, yychar, yyline,yytext());}
+"\{" {return new Symbol(sym.LlaveA, yychar, yyline,yytext());}
+"\}" {return new Symbol(sym.LlaveC, yychar, yyline,yytext());}
 ":=" {return new Symbol(sym.PuntoIgual, yychar, yyline,yytext());}
 "." {return new Symbol(sym.Punto, yychar, yyline,yytext());}
 ":" {return new Symbol(sym.DosPuntos, yychar, yyline,yytext());}

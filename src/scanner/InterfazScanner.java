@@ -19,6 +19,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import scanner.Scanner.*;
+
 /**
  *
  * @author Mario Lara Molina
@@ -43,9 +44,9 @@ public class InterfazScanner extends javax.swing.JFrame  {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaToken = new javax.swing.JTable();
+        TablaLexico = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TablaError = new javax.swing.JTable();
+        TablaErrorSintactico = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -57,10 +58,13 @@ public class InterfazScanner extends javax.swing.JFrame  {
         BotonArchivo = new javax.swing.JButton();
         BtnAnalizar = new javax.swing.JToggleButton();
         BtnLimpiar = new javax.swing.JToggleButton();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        TablaErrorLexico = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        TablaToken.setModel(new javax.swing.table.DefaultTableModel(
+        TablaLexico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -68,9 +72,9 @@ public class InterfazScanner extends javax.swing.JFrame  {
 
             }
         ));
-        jScrollPane1.setViewportView(TablaToken);
+        jScrollPane1.setViewportView(TablaLexico);
 
-        TablaError.setModel(new javax.swing.table.DefaultTableModel(
+        TablaErrorSintactico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -78,13 +82,13 @@ public class InterfazScanner extends javax.swing.JFrame  {
 
             }
         ));
-        jScrollPane2.setViewportView(TablaError);
+        jScrollPane2.setViewportView(TablaErrorSintactico);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Analisis Lexico");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Tabla de errores");
+        jLabel2.setText("Tabla de errores sintactico");
 
         TablaSintactico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,26 +135,36 @@ public class InterfazScanner extends javax.swing.JFrame  {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setText("Tabla errores lexico");
+
+        TablaErrorLexico.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane5.setViewportView(TablaErrorLexico);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(BotonArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(BtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4)
+                        .addComponent(BtnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
@@ -158,7 +172,15 @@ public class InterfazScanner extends javax.swing.JFrame  {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(165, 165, 165)
+                        .addComponent(jLabel6)))
                 .addGap(0, 19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -166,26 +188,30 @@ public class InterfazScanner extends javax.swing.JFrame  {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane4))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                     .addComponent(BtnAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BtnLimpiar)
                     .addComponent(BotonArchivo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -263,121 +289,141 @@ public class InterfazScanner extends javax.swing.JFrame  {
     private void BtnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimpiarActionPerformed
         // TODO add your handling code here:
         textoLeer.setText(null);
-        TablaToken.removeAll();
-        TablaError.removeAll();
+        TablaLexico.removeAll();
+        TablaErrorSintactico.removeAll();
         TablaSintactico.removeAll();
     }//GEN-LAST:event_BtnLimpiarActionPerformed
 
     private void BtnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAnalizarActionPerformed
         // TODO add your handling code here:
-        /*int cont = 1;
+        int cont = 1;
         
+        String columnsLexico[] = {"Token","Tipo","Linea(s)"};
+        String columnsError[] = {"Error", "Linea"};
+        String columnsSintactico[] = {"Token","Tipo","Linea(s)"};
+        String datosTokens[][] = new String[3][3];
+        
+        DefaultTableModel modelSintax = new DefaultTableModel(datosTokens,columnsSintactico);
+        DefaultTableModel modelError = new DefaultTableModel(datosTokens,columnsError);
+        DefaultTableModel modelLexico = new DefaultTableModel(datosTokens,columnsLexico);
+        
+        TablaSintactico.setModel(modelSintax);
+        TablaErrorSintactico.setModel(modelError);
+        TablaErrorLexico.setModel(modelError);
+        TablaLexico.setModel(modelLexico);
+        
+        
+            
         String expr = (String) textoLeer.getText();
         Lexer lexer = new Lexer(new StringReader(expr));
         String resultado = "LINEA " + cont + "\t\tSIMBOLO\n";
         while (true) {
-            Tokens token = lexer.yylex();
-            if (token == null) {
-                textoLeer.setText(resultado);
-                return;
+            try {
+                Tokens token = lexer.yylex();
+                if (token == null) {
+                    textoLeer.setText(resultado);
+                    return;
+                }
+                switch (token) {
+                    case Array:
+                        cont++;
+                        resultado += "Array " + cont + "\n";
+                        break;
+                    /*case Comillas:
+                        resultado += "  <Comillas>\t\t" + lexer.lexeme + "\n";
+                        break;
+                    case Cadena:
+                        resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
+                        break;
+                    case T_dato:
+                        resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
+                        break;*/
+                    case If:
+                        resultado += "  <Reservada if>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Else:
+                        resultado += "  <Reservada else>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Do:
+                        resultado += "  <Reservada do>\t" + lexer.lexeme + "\n";
+                        break;
+                    case While:
+                        resultado += "  <Reservada while>\t" + lexer.lexeme + "\n";
+                        break;
+                    case For:
+                        resultado += "  <Reservada for>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Igual:
+                        resultado += "  <Operador igual>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Suma:
+                        resultado += "  <Operador suma>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Resta:
+                        resultado += "  <Operador resta>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Multiplicacion:
+                        resultado += "  <Operador multiplicacion>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Division:
+                        resultado += "  <Operador division>\t" + lexer.lexeme + "\n";
+                        break;
+                    /*case Op_logico:
+                        resultado += "  <Operador logico>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Op_incremento:
+                        resultado += "  <Operador incremento>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Op_relacional:
+                        resultado += "  <Operador relacional>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Op_atribucion:
+                        resultado += "  <Operador atribucion>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Op_booleano:
+                        resultado += "  <Operador booleano>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Parentesis_a:
+                        resultado += "  <Parentesis de apertura>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Parentesis_c:
+                        resultado += "  <Parentesis de cierre>\t" + lexer.lexeme + "\n";
+                        break;
+                    case LlaveA:
+                        resultado += "  <Llave de apertura>\t" + lexer.lexeme + "\n";
+                        break;
+                    case LlaveC:
+                        resultado += "  <Llave de cierre>\t" + lexer.lexeme + "\n";
+                        break;*/
+                    case CorcheteA:
+                        resultado += "  <Corchete de apertura>\t" + lexer.lexeme + "\n";
+                        break;
+                    case CorcheteC:
+                        resultado += "  <Corchete de cierre>\t" + lexer.lexeme + "\n";
+                        break;
+                    /*case Main:
+                        resultado += "  <Reservada main>\t" + lexer.lexeme + "\n";
+                        break;
+                    case P_coma:
+                        resultado += "  <Punto y coma>\t" + lexer.lexeme + "\n";
+                        break;
+                    case Identificador:
+                        resultado += "  <Identificador>\t\t" + lexer.lexeme + "\n";
+                        break;
+                    case Numero:
+                        resultado += "  <Numero>\t\t" + lexer.lexeme + "\n";
+                        break;*/
+                    case Error:
+                        resultado += "  <Simbolo no definido>\n";
+                        break;
+                    default:
+                        resultado += "  < " + lexer.lexeme + " >\n";
+                        break;
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(InterfazScanner.class.getName()).log(Level.SEVERE, null, ex);
             }
-            switch (token) {
-                case Array:
-                    cont++;
-                    resultado += "Array " + cont + "\n";
-                    break;
-                case Comillas:
-                    resultado += "  <Comillas>\t\t" + lexer.lexeme + "\n";
-                    break;
-                case Cadena:
-                    resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
-                    break;
-                case T_dato:
-                    resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
-                    break;
-                case If:
-                    resultado += "  <Reservada if>\t" + lexer.lexeme + "\n";
-                    break;
-                case Else:
-                    resultado += "  <Reservada else>\t" + lexer.lexeme + "\n";
-                    break;
-                case Do:
-                    resultado += "  <Reservada do>\t" + lexer.lexeme + "\n";
-                    break;
-                case While:
-                    resultado += "  <Reservada while>\t" + lexer.lexeme + "\n";
-                    break;
-                case For:
-                    resultado += "  <Reservada while>\t" + lexer.lexeme + "\n";
-                    break;
-                case Igual:
-                    resultado += "  <Operador igual>\t" + lexer.lexeme + "\n";
-                    break;
-                case Suma:
-                    resultado += "  <Operador suma>\t" + lexer.lexeme + "\n";
-                    break;
-                case Resta:
-                    resultado += "  <Operador resta>\t" + lexer.lexeme + "\n";
-                    break;
-                case Multiplicacion:
-                    resultado += "  <Operador multiplicacion>\t" + lexer.lexeme + "\n";
-                    break;
-                case Division:
-                    resultado += "  <Operador division>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_logico:
-                    resultado += "  <Operador logico>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_incremento:
-                    resultado += "  <Operador incremento>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_relacional:
-                    resultado += "  <Operador relacional>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_atribucion:
-                    resultado += "  <Operador atribucion>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_booleano:
-                    resultado += "  <Operador booleano>\t" + lexer.lexeme + "\n";
-                    break;
-                case Parentesis_a:
-                    resultado += "  <Parentesis de apertura>\t" + lexer.lexeme + "\n";
-                    break;
-                case Parentesis_c:
-                    resultado += "  <Parentesis de cierre>\t" + lexer.lexeme + "\n";
-                    break;
-                case Llave_a:
-                    resultado += "  <Llave de apertura>\t" + lexer.lexeme + "\n";
-                    break;
-                case Llave_c:
-                    resultado += "  <Llave de cierre>\t" + lexer.lexeme + "\n";
-                    break;
-                case Corchete_a:
-                    resultado += "  <Corchete de apertura>\t" + lexer.lexeme + "\n";
-                    break;
-                case Corchete_c:
-                    resultado += "  <Corchete de cierre>\t" + lexer.lexeme + "\n";
-                    break;
-                case Main:
-                    resultado += "  <Reservada main>\t" + lexer.lexeme + "\n";
-                    break;
-                case P_coma:
-                    resultado += "  <Punto y coma>\t" + lexer.lexeme + "\n";
-                    break;
-                case Identificador:
-                    resultado += "  <Identificador>\t\t" + lexer.lexeme + "\n";
-                    break;
-                case Numero:
-                    resultado += "  <Numero>\t\t" + lexer.lexeme + "\n";
-                    break;
-                case Error:
-                    resultado += "  <Simbolo no definido>\n";
-                    break;
-                default:
-                    resultado += "  < " + lexer.lexeme + " >\n";
-                    break;
-            }
-        }*/
+        }
     }//GEN-LAST:event_BtnAnalizarActionPerformed
 
     /**
@@ -419,18 +465,21 @@ public class InterfazScanner extends javax.swing.JFrame  {
     private javax.swing.JButton BotonArchivo;
     private javax.swing.JToggleButton BtnAnalizar;
     private javax.swing.JToggleButton BtnLimpiar;
-    private javax.swing.JTable TablaError;
+    private javax.swing.JTable TablaErrorLexico;
+    private javax.swing.JTable TablaErrorSintactico;
+    private javax.swing.JTable TablaLexico;
     private javax.swing.JTable TablaSintactico;
-    private javax.swing.JTable TablaToken;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea textoLeer;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,14 +15,76 @@ parser code{:
 terminal Array,Begin,Boolean,Byte,Case,Char,Const,Do,Downto,Else,
 End,False,File,For,Forward,Function,Goto,If,In,Inline,Int,Label,
 Longint,Nil,Of,Packed,Procedure,Program,Read,Real,Record,Repeat,
-Set,Shortint,String,Then,To,True,Type,Until,Var,While,With,Write,
+Set,Shortint,String,Then,To,True,TDato,Type,Until,Var,While,With,Write,
 Coma,PuntoComa,SumaDoble,RestaDoble,MayorIgual,Mayor,MenorIgual,
 Menor,Puntas,Igual,Suma,Resta,Multiplicacion,Division,ParentesisA,
-ParentesisC,CorcheteA,CorcheteC,PuntoIgual,Punto,DosPuntos,SumaS,
+ParentesisC,CorcheteA,CorcheteC,LlaveA,LlaveC,PuntoIgual,Punto,DosPuntos,SumaS,
 RestaS,MultiplicacionS,DivisionS,MayorDoble,MenorDoble,MenorDobleIgual,
 MayorDobleIgual,Nor,Or,And,Xor,Div,Mod;
 
-non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
+non terminal PROGRAM, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
     WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR;
 
-start with INICIO;
+start with PROGRAM;
+
+PROGRAM ::= String | 
+;
+SENTENCIA ::= 
+    SENTENCIA DECLARACION |
+    DECLARACION |
+    SENTENCIA If| 
+    If|
+    SENTENCIA IF_ELSE |
+    IF_ELSE |
+    SENTENCIA While |
+    While |
+    SENTENCIA DO_WHILE
+    DO_WHILE |
+    SENTENCIA FOR |
+    FOR
+;
+DECLARACION ::= 
+    TDato Identificador PuntoComa | 
+    TDato Identificador Op_atribucion Numero PuntoComa |
+    TDato Identificador Igual Numero PuntoComa |
+    TDato Identificador Op_incremento PuntoComa | 
+    TDato Op_incremento Identificador PuntoComa | 
+    Cadena Identificador Op_atribucion Comillas Comillas PuntoComa |
+    Cadena Identificador Igual Comillas Comillas PuntoComa |
+    Cadena Identificador Op_atribucion Comillas Identificador Comillas PuntoComa |
+    Cadena Identificador Igual Comillas Identificador Comillas PuntoComa
+;
+IF ::= If ParentesisA SENTENCIA_BOOLEANA ParentesisC LlaveA SENTENCIA LlaveC
+;
+SENTENCIABOOLEANA ::= 
+    Op_booleano | 
+    Identificador Op_relacional Op_booleano |
+    Identificador Op_relacional Numero |
+    Identificador Op_relacional Identificador |
+    Identificador Op_relacional Comillas Comillas |
+    Identificador Op_relacional Comillas Identificador Comillas
+;
+IFELSE ::= If ParentesisA SENTENCIABOOLEANA ParentesisC LlaveA SENTENCIA LlaveC Else LlaveA SENTENCIA LlaveC
+;
+WHILE ::= While ParentesisA SENTENCIA_BOOLEANA ParentesisC LlaveA SENTENCIA LlaveC
+;
+DO_WHILE ::= Do LlaveA SENTENCIA LlaveC While ParentesisA SENTENCIA_BOOLEANA ParentesisC PuntoComa
+;
+FOR ::= For ParentesisA SENTENCIA_FOR ParentesisC LlaveA SENTENCIA LlaveC
+;
+SENTENCIA_FOR ::=
+    T_dato Identificador Igual Numero PuntoComa SENTENCIA_BOOLEANA PuntoComa DECLARACION_FOR |
+    Identificador Igual Numero PuntoComa SENTENCIA_BOOLEANA PuntoComa DECLARACION_FOR
+;
+DECLARACION_FOR ::= 
+    Identificador Op_atribucion Numero |
+    Identificador Op_incremento | 
+    Op_incremento Identificador
+;
+Op_incremento ::= RestaDoble, SumaDoble;
+
+Op_atribucion ::= SumaS,RestaS,MultiplicacionS,DivisionS,Igual;
+
+Op_relacional ::= MayorIgual,MenorIgual,Mayor,Menor,Puntas;
+
+Op_booleanos ::= True,False;
