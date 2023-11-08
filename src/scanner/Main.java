@@ -27,7 +27,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SilentExit, Exception{
-        //var scanner = new Scanner();
+        var scanner = new Scanner();
         String ruta1 = "src/scanner/Lexer.flex";
         String ruta2 = "src/scanner/LexerCup.flex";
         String[] rutaS = {"-parser", "Sintax", "src/scanner//Sintax.cup"};
@@ -48,7 +48,7 @@ public class Main {
             Files.delete(rutaSym);
         }
         Files.move(
-                Paths.get("sym.java"), 
+                Paths.get("Scanner/sym.java"), 
                 Paths.get("src/scanner/sym.java")
         );
         Path rutaSin = Paths.get("src/scanner/Sintax.java");
@@ -56,7 +56,7 @@ public class Main {
             Files.delete(rutaSin);
         }
         Files.move(
-                Paths.get("Sintax.java"), 
+                Paths.get("Scanner/Sintax.java"), 
                 Paths.get("src/scanner/Sintax.java")
         );
     }
