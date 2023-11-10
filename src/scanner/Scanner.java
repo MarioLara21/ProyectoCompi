@@ -32,9 +32,9 @@ public class Scanner {
         this.tokensList = new ArrayList<ArrayList>();
         this.errores = new ArrayList<ArrayList>();
         this.linesaux = "";
-        String ruta1 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/Lexer.flex";
-        String ruta2 = "G:/ReposGit/ProyectoCompi/Scanner/src/scanner/LexerCup.flex";
-        String[] rutaS = {"-parser", "Sintax", "G:/ReposGit/ProyectoCompi/Scanner/src/scanner//Sintax.cup"};
+        String ruta1 = "src/scanner/Lexer.flex";
+        String ruta2 = "src/scanner/LexerCup.flex";
+        String[] rutaS = {"-parser", "Sintax", "src/scanner//Sintax.cup"};
         generar(ruta1, ruta2, rutaS);
     }
     

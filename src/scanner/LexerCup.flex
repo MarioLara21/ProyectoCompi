@@ -29,6 +29,11 @@ espacio=[ ,\t,\r,\n]+
 %{
     public int GetLine() { return yyline + 1; }
 %}
+
+%eofval{
+  return sym.EOF;
+%eofval}
+
 %%
 // Definicion de palabras reservadas
 "array" {return new Symbol(sym.Array, yychar, yyline,yytext());}
@@ -86,8 +91,6 @@ espacio=[ ,\t,\r,\n]+
 
 // Definicion de operadores
 
-
-"\," {return new Symbol(sym.Coma, yychar, yyline,yytext());}
 ";" {return new Symbol(sym.PuntoComa, yychar, yyline,yytext());}
 "\+\+" {return new Symbol(sym.SumaDoble, yychar, yyline,yytext());}
 "--" {return new Symbol(sym.RestaDoble, yychar, yyline,yytext());}
@@ -130,7 +133,7 @@ espacio=[ ,\t,\r,\n]+
 
 // Definicion de la regla para identificadores
 
-{L}({L}|{D}){0,126} {return new Symbol(sym.Identificador, yychar, yyline,yytext());}
+//{L}({L}|{D}){0,126} {return new Symbol(sym.Identificador, yychar, yyline,yytext());}
 
 //Definicion de las reglas para literales
 

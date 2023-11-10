@@ -170,8 +170,8 @@ public class InterfazScanner extends javax.swing.JFrame  {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -296,24 +296,9 @@ public class InterfazScanner extends javax.swing.JFrame  {
 
     private void BtnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAnalizarActionPerformed
         // TODO add your handling code here:
+        String datosPrueba[][] = new String[3][3];
         int cont = 1;
         
-        String columnsLexico[] = {"Token","Tipo","Linea(s)"};
-        String columnsError[] = {"Error", "Linea"};
-        String columnsSintactico[] = {"Token","Tipo","Linea(s)"};
-        String datosTokens[][] = new String[3][3];
-        
-        DefaultTableModel modelSintax = new DefaultTableModel(datosTokens,columnsSintactico);
-        DefaultTableModel modelError = new DefaultTableModel(datosTokens,columnsError);
-        DefaultTableModel modelLexico = new DefaultTableModel(datosTokens,columnsLexico);
-        
-        TablaSintactico.setModel(modelSintax);
-        TablaErrorSintactico.setModel(modelError);
-        TablaErrorLexico.setModel(modelError);
-        TablaLexico.setModel(modelLexico);
-        
-        
-            
         String expr = (String) textoLeer.getText();
         Lexer lexer = new Lexer(new StringReader(expr));
         String resultado = "LINEA " + cont + "\t\tSIMBOLO\n";
@@ -329,13 +314,13 @@ public class InterfazScanner extends javax.swing.JFrame  {
                         cont++;
                         resultado += "Array " + cont + "\n";
                         break;
-                    /*case Comillas:
+                        /*case Comillas:
                         resultado += "  <Comillas>\t\t" + lexer.lexeme + "\n";
                         break;
-                    case Cadena:
+                        case Cadena:
                         resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
                         break;
-                    case T_dato:
+                        case T_dato:
                         resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
                         break;*/
                     case If:
@@ -368,31 +353,31 @@ public class InterfazScanner extends javax.swing.JFrame  {
                     case Division:
                         resultado += "  <Operador division>\t" + lexer.lexeme + "\n";
                         break;
-                    /*case Op_logico:
+                        /*case Op_logico:
                         resultado += "  <Operador logico>\t" + lexer.lexeme + "\n";
                         break;
-                    case Op_incremento:
+                        case Op_incremento:
                         resultado += "  <Operador incremento>\t" + lexer.lexeme + "\n";
                         break;
-                    case Op_relacional:
+                        case Op_relacional:
                         resultado += "  <Operador relacional>\t" + lexer.lexeme + "\n";
                         break;
-                    case Op_atribucion:
+                        case Op_atribucion:
                         resultado += "  <Operador atribucion>\t" + lexer.lexeme + "\n";
                         break;
-                    case Op_booleano:
+                        case Op_booleano:
                         resultado += "  <Operador booleano>\t" + lexer.lexeme + "\n";
                         break;
-                    case Parentesis_a:
+                        case Parentesis_a:
                         resultado += "  <Parentesis de apertura>\t" + lexer.lexeme + "\n";
                         break;
-                    case Parentesis_c:
+                        case Parentesis_c:
                         resultado += "  <Parentesis de cierre>\t" + lexer.lexeme + "\n";
                         break;
-                    case LlaveA:
+                        case LlaveA:
                         resultado += "  <Llave de apertura>\t" + lexer.lexeme + "\n";
                         break;
-                    case LlaveC:
+                        case LlaveC:
                         resultado += "  <Llave de cierre>\t" + lexer.lexeme + "\n";
                         break;*/
                     case CorcheteA:
@@ -401,16 +386,16 @@ public class InterfazScanner extends javax.swing.JFrame  {
                     case CorcheteC:
                         resultado += "  <Corchete de cierre>\t" + lexer.lexeme + "\n";
                         break;
-                    /*case Main:
+                        /*case Main:
                         resultado += "  <Reservada main>\t" + lexer.lexeme + "\n";
                         break;
-                    case P_coma:
+                        case P_coma:
                         resultado += "  <Punto y coma>\t" + lexer.lexeme + "\n";
                         break;
-                    case Identificador:
+                        case Identificador:
                         resultado += "  <Identificador>\t\t" + lexer.lexeme + "\n";
                         break;
-                    case Numero:
+                        case Numero:
                         resultado += "  <Numero>\t\t" + lexer.lexeme + "\n";
                         break;*/
                     case Error:
@@ -420,7 +405,39 @@ public class InterfazScanner extends javax.swing.JFrame  {
                         resultado += "  < " + lexer.lexeme + " >\n";
                         break;
                 }
-            } catch (IOException ex) {
+                Scanner scanner = new Scanner();
+                scanner.readFile(expr);
+                scanner.organizador();      //Se organiza la lista de Tokens
+                
+                String columnsTokens[] = {"Token","Tipo","Linea(s)"};
+                String columnsErrors[] = {"Error", "Linea"};
+                String datosTokens[][] = new String[scanner.getTokensList().size()][3];
+                String datosErrores[][] = new String[scanner.getErrores().size()][3];
+                for (int i = 0; i < scanner.getTokensList().size(); i++) {
+                    String prnt = (String) scanner.getTokensList().get(i).get(0);
+                    String prnt2 = (String) scanner.getTokensList().get(i).get(1);
+                    String prnt3 = (String) scanner.getTokensList().get(i).get(2);
+                    datosTokens[i][0]= prnt;
+                    datosTokens[i][1]= prnt2;
+                    datosTokens[i][2]= prnt3;
+                }
+                for (int i = 0; i < scanner.getErrores().size(); i++) {
+                    String prnt = (String) scanner.getErrores().get(i).get(0);
+                    String prnt2 = (String) scanner.getErrores().get(i).get(1);
+                    datosErrores[i][0]= prnt;
+                    datosErrores[i][1]= prnt2;
+                }
+                DefaultTableModel modelTokens = new DefaultTableModel(datosTokens,columnsTokens);
+                DefaultTableModel modelErrors = new DefaultTableModel(datosErrores,columnsErrors);
+                DefaultTableModel modelSintax = new DefaultTableModel(datosPrueba,columnsTokens);
+                DefaultTableModel modelError = new DefaultTableModel(datosPrueba,columnsErrors);
+                DefaultTableModel modelLexico = new DefaultTableModel(datosPrueba,columnsTokens);
+                
+                TablaSintactico.setModel(modelSintax);
+                TablaErrorSintactico.setModel(modelError);
+                TablaErrorLexico.setModel(modelErrors);
+                TablaLexico.setModel(modelTokens);
+            } catch (Exception ex) {
                 Logger.getLogger(InterfazScanner.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

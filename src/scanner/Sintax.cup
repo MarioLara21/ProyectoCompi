@@ -23,7 +23,8 @@ RestaS,MultiplicacionS,DivisionS,MayorDoble,MenorDoble,MenorDobleIgual,
 MayorDobleIgual,Nor,Or,And,Xor,Div,Mod;
 
 non terminal PROGRAM, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR;
+    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, Identificador, 
+    Op_atribucion,Numero;
 
 start with PROGRAM;
 
@@ -43,6 +44,8 @@ SENTENCIA ::=
     SENTENCIA FOR |
     FOR
 ;
+Identificador ::= String;
+Numero ::= int,Longint,Shortint;
 DECLARACION ::= 
     TDato Identificador PuntoComa | 
     TDato Identificador Op_atribucion Numero PuntoComa |
